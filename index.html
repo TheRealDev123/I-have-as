@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="A bright, modern dashboard for celebrating your school grades.">
+  <title>My Grades — A+ Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20233b;
+      --muted: #777b91;
+      --purple: #7657e8;
+      --purple-dark: #6142d3;
+      --lavender: #f0edff;
+      --line: #ececf4;
+      --surface: #fff;
+      --bg: #f7f7fb;
+      --green: #2da77a;
+      --shadow: 0 16px 42px rgba(44, 37, 91, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button { font: inherit; }
+    .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      display: flex; flex-direction: column; padding: 27px 18px 22px;
+      background: #fff; border-right: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; font-size: 17px; font-weight: 760; letter-spacing: -.5px; }
+    .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: white; background: linear-gradient(145deg, #947bff, #6848df); box-shadow: 0 6px 14px #7657e844; }
+    .brand-mark svg { width: 21px; height: 21px; }
+    .nav-label { margin: 39px 10px 12px; color: #a0a2b3; font-size: 10px; font-weight: 760; letter-spacing: 1.25px; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 13px; border-radius: 12px; color: #777b91; font-size: 13px; font-weight: 630; }
+    .nav-item.active { color: var(--purple-dark); background: var(--lavender); }
+    .nav-item svg { width: 18px; height: 18px; }
+    .sidebar-bottom { margin-top: auto; }
+    .help-card { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: #fcfcff; }
+    .help-icon { display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 12px; border-radius: 10px; background: #f2efff; color: var(--purple); font-weight: 800; }
+    .help-card strong { display: block; font-size: 12px; }
+    .help-card p { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    main { min-width: 0; padding: 27px clamp(20px, 4vw, 55px) 48px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 42px; }
+    .breadcrumb { color: var(--muted); font-size: 12px; }
+    .profile { display: flex; align-items: center; gap: 10px; }
+    .avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #6848df; background: #e9e3ff; font-size: 12px; font-weight: 750; }
+    .profile-name { font-size: 12px; font-weight: 700; }
+    .profile-sub { margin-top: 3px; color: var(--muted); font-size: 10px; }
+    .intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 27px; }
+    .eyebrow { margin: 0 0 9px; color: var(--purple); font-size: 11px; font-weight: 750; letter-spacing: 1px; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(29px, 4vw, 39px); letter-spacing: -1.6px; line-height: 1.12; }
+    .subtitle { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+    .term-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; white-space: nowrap; border: 1px solid var(--line); border-radius: 11px; background: #fff; color: #55596f; font-size: 11px; font-weight: 650; }
+    .term-pill svg { width: 15px; height: 15px; color: var(--purple); }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-bottom: 27px; }
+    .stat-card { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: 0 4px 16px rgba(34, 30, 70, .025); }
+    .stat-icon { display: grid; flex: 0 0 41px; place-items: center; width: 41px; height: 41px; border-radius: 13px; color: var(--purple); background: #f1eeff; }
+    .stat-icon.green { color: var(--green); background: #eaf8f2; }
+    .stat-icon.gold { color: #d3922f; background: #fff5e5; }
+    .stat-icon svg { width: 20px; height: 20px; }
+    .stat-label { color: var(--muted); font-size: 10px; font-weight: 650; }
+    .stat-value { margin-top: 4px; font-size: 20px; font-weight: 780; letter-spacing: -.6px; }
+    .stat-note { margin-top: 3px; color: #999bad; font-size: 10px; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; margin: 0 0 13px; }
+    h2 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
+    .count { color: var(--muted); font-size: 11px; }
+    .subject-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
+    .subject-card {
+      position: relative; display: flex; align-items: center; gap: 12px; min-width: 0; padding: 15px;
+      border: 1px solid var(--line); border-radius: 15px; background: #fff; color: var(--ink);
+      text-align: left; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .subject-card:hover { transform: translateY(-2px); border-color: #d8d0ff; box-shadow: 0 9px 22px rgba(58, 46, 120, .08); }
+    .subject-card[aria-pressed="true"] { border-color: #cfc4ff; box-shadow: 0 0 0 3px #f0edff; }
+    .subject-icon { display: grid; flex: 0 0 38px; place-items: center; width: 38px; height: 38px; border-radius: 12px; font-size: 18px; }
+    .subject-info { min-width: 0; }
+    .subject-name { overflow: hidden; font-size: 12px; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
+    .subject-meta { margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .grade-chip { margin-left: auto; padding: 6px 8px; border-radius: 9px; color: #208b65; background: #e9f8f1; font-size: 11px; font-weight: 800; }
+    .detail-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; margin-top: 23px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 4px 16px rgba(34, 30, 70, .025); }
+    .detail-top { display: flex; align-items: center; gap: 11px; }
+    .detail-top .subject-icon { width: 42px; height: 42px; font-size: 20px; }
+    .detail-name { font-size: 14px; font-weight: 750; }
+    .detail-caption { margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .detail-description { margin: 14px 0 0; color: #65697e; font-size: 11px; line-height: 1.6; }
+    .big-grade { min-width: 102px; padding: 10px 18px; border-radius: 14px; background: #f0fbf6; color: #228b65; text-align: center; }
+    .big-grade strong { display: block; font-size: 30px; letter-spacing: -1.5px; }
+    .big-grade span { display: block; margin-top: 2px; color: #5da88b; font-size: 9px; font-weight: 650; }
+    .footer-note { margin-top: 21px; color: #a0a2b3; font-size: 10px; text-align: center; }
+    @media (max-width: 900px) { .app { grid-template-columns: 205px minmax(0, 1fr); } .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 650px) {
+      .app { display: block; }
+      .sidebar { display: none; }
+      main { padding: 19px 17px 35px; }
+      .topbar { margin-bottom: 30px; }
+      .intro { align-items: flex-start; flex-direction: column; }
+      .term-pill { align-self: flex-start; }
+      .stats { grid-template-columns: 1fr; gap: 9px; }
+      .stat-card { padding: 13px 15px; }
+      .stat-icon { width: 36px; height: 36px; flex-basis: 36px; }
+      .stat-value { font-size: 18px; }
+      .subject-grid { gap: 9px; }
+      .subject-card { gap: 8px; padding: 11px 9px; }
+      .subject-icon { width: 32px; height: 32px; flex-basis: 32px; font-size: 15px; }
+      .subject-name { font-size: 11px; }
+      .grade-chip { padding: 5px 6px; font-size: 10px; }
+      .detail-card { padding: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7V3Z" fill="currentColor"/></svg></span> Gradebook</div>
+      <div class="nav-label">MENU</div>
+      <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg> My grades</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Subjects</div>
+      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> School year</div>
+      <div class="sidebar-bottom"><div class="help-card"><div class="help-icon">✦</div><strong>Keep it up!</strong><p>Every subject is looking brilliant. You're doing great.</p></div></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div class="breadcrumb">School portal <span aria-hidden="true"> / </span> <strong>My grades</strong></div>
+        <div class="profile"><div class="avatar" aria-hidden="true">S</div><div><div class="profile-name">Student</div><div class="profile-sub">My dashboard</div></div></div>
+      </header>
+      <section class="intro" aria-labelledby="page-title">
+        <div><p class="eyebrow">Your progress at a glance</p><h1 id="page-title">My grades<span aria-hidden="true"> ✨</span></h1><p class="subtitle">Look at you go — you're doing amazing in every subject.</p></div>
+        <div class="term-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> 2025–2026 School Year</div>
+      </section>
+      <section class="stats" aria-label="Grade summary">
+        <article class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg></div><div><div class="stat-label">Overall grade</div><div class="stat-value">A+</div><div class="stat-note">A+ across the board</div></div></article>
+        <article class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h17M7 15l4-4 3 2 6-7"/><path d="M16 6h4v4"/></svg></div><div><div class="stat-label">Subjects doing great in</div><div class="stat-value">6 / 6</div><div class="stat-note">Every single one!</div></div></article>
+        <article class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4"/></svg></div><div><div class="stat-label">Achievement</div><div class="stat-value">All-star</div><div class="stat-note">Keep shining!</div></div></article>
+      </section>
+      <section aria-labelledby="subjects-title">
+        <div class="section-heading"><h2 id="subjects-title">All subjects</h2><span class="count">6 subjects</span></div>
+        <div class="subject-grid" id="subject-grid" role="group" aria-label="Choose a subject"></div>
+      </section>
+      <section class="detail-card" id="subject-detail" aria-live="polite" aria-label="Selected subject details"></section>
+      <p class="footer-note">One step at a time — you're making wonderful progress. 🌱</p>
+    </main>
+  </div>
+  <script>
+    const subjects = [
+      { name: 'Mathematics', icon: '∑', tint: '#f0edff', color: '#7657e8', note: 'Numbers, patterns & problem-solving', message: 'A+ work in math! Your effort and curiosity are adding up to something wonderful.' },
+      { name: 'English', icon: '✎', tint: '#fff0ed', color: '#e77b63', note: 'Reading, writing & communication', message: 'A+ work in English! Your ideas and words are making a big impression.' },
+      { name: 'Science', icon: '⚛', tint: '#eaf8f2', color: '#37a77a', note: 'Discovering how the world works', message: 'A+ work in science! Keep asking great questions and exploring.' },
+      { name: 'History', icon: '◷', tint: '#fff5e5', color: '#d3922f', note: 'Stories and lessons from the past', message: 'A+ work in history! You’re building a brilliant understanding of the past.' },
+      { name: 'Art', icon: '✿', tint: '#ffedf5', color: '#d75d91', note: 'Creativity, color & imagination', message: 'A+ work in art! Your creativity is something to celebrate.' },
+      { name: 'Physical Education', icon: '⚡', tint: '#eaf3ff', color: '#528cda', note: 'Movement, teamwork & wellbeing', message: 'A+ work in PE! Your energy and teamwork are outstanding.' }
+    ];
+    const grid = document.querySelector('#subject-grid');
+    const detail = document.querySelector('#subject-detail');
+    function showSubject(index) {
+      const subject = subjects[index];
+      document.querySelectorAll('.subject-card').forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+      detail.innerHTML = `<div><div class="detail-top"><span class="subject-icon" style="background:${subject.tint};color:${subject.color}" aria-hidden="true">${subject.icon}</span><div><div class="detail-name">${subject.name}</div><div class="detail-caption">${subject.note}</div></div></div><p class="detail-description">${subject.message}</p></div><div class="big-grade"><strong>A+</strong><span>EXCELLENT WORK</span></div>`;
+    }
+    subjects.forEach((subject, index) => {
+      const button = document.createElement('button');
+      button.className = 'subject-card';
+      button.type = 'button';
+      button.setAttribute('aria-pressed', 'false');
+      button.innerHTML = `<span class="subject-icon" style="background:${subject.tint};color:${subject.color}" aria-hidden="true">${subject.icon}</span><span class="subject-info"><span class="subject-name">${subject.name}</span><span class="subject-meta">${subject.note}</span></span><span class="grade-chip">A+</span>`;
+      button.addEventListener('click', () => showSubject(index));
+      grid.appendChild(button);
+    });
+    showSubject(0);
+  </script>
+</body>
+</html>
