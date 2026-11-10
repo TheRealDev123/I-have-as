@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#174a78">
-  <meta name="description" content="A sample student grade portal with an A+ in every subject.">
-  <title>Student Portal — Grades</title>
+  <meta name="description" content="An unofficial sample school gradebook with fictional A+ grades.">
+  <title>Student Portal — Sample Gradebook</title>
   <style>
     :root {
       color-scheme: light;
@@ -23,12 +23,14 @@
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--page); color: var(--ink); font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
     button { font: inherit; }
-    .top-header { min-height: 67px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 clamp(16px, 4vw, 48px); color: white; background: var(--navy); border-bottom: 4px solid #6fa7cc; }
+    .top-header { min-height: 67px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 clamp(16px, 4vw, 48px); color: white; background: var(--navy); border-bottom: 4px solid #3c82b4; }
     .portal-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; letter-spacing: .2px; }
     .brand-emblem { display: grid; width: 36px; height: 36px; place-items: center; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; font-size: 18px; font-weight: 700; }
     .header-right { display: flex; align-items: center; gap: 18px; color: #e4edf4; font-size: 12px; }
     .header-user { display: flex; align-items: center; gap: 9px; padding-left: 17px; border-left: 1px solid rgba(255,255,255,.25); }
     .user-circle { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: var(--navy); background: white; font-weight: 700; }
+    .demo-banner { padding: 8px 18px; border-bottom: 1px solid #e6d5a5; background: #fff8df; color: #655326; font-size: 11px; text-align: center; }
+    .demo-banner strong { color: #4a3b16; }
     .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; width: min(1240px, calc(100% - 38px)); margin: 22px auto 42px; align-items: start; }
     .sidebar, .content-panel { background: white; border: 1px solid #d4dde5; box-shadow: 0 1px 2px rgba(20,50,75,.05); }
     .sidebar-title { padding: 13px 15px; color: white; background: var(--blue); font-size: 14px; font-weight: 700; }
@@ -70,18 +72,17 @@
     tbody tr:last-child td { border-bottom: 0; }
     .subject-button { padding: 0; border: 0; background: transparent; color: #205b88; text-align: left; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; font-weight: 600; }
     .subject-button:hover { color: #123d61; }
+    .subject-button:focus-visible, .nav-link:focus-visible { outline: 2px solid #1672b9; outline-offset: 2px; }
     .grade { color: var(--green); font-weight: 700; text-align: center; }
-    .center { text-align: center; }
     .detail { display: none; margin-top: 17px; border: 1px solid #bdccd7; }
     .detail.open { display: block; }
     .detail-title { padding: 9px 12px; color: white; background: var(--blue); font-weight: 700; }
     .detail-body { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px; background: #fbfcfd; }
     .detail-message { color: #536a7c; font-size: 12px; line-height: 1.5; }
     .detail-grade { min-width: 58px; padding: 8px 12px; border: 1px solid #a9cdb6; background: #eef8f0; color: var(--green); text-align: center; font-size: 18px; font-weight: 700; }
-    .footnote { margin: 14px 0 0; color: #8795a1; font-size: 10px; }
+    .footnote { margin: 14px 0 0; color: #8795a1; font-size: 10px; line-height: 1.5; }
     @media (max-width: 760px) {
       .layout { grid-template-columns: 1fr; width: min(100% - 24px, 620px); margin-top: 13px; }
-      .sidebar { display: block; }
       .side-nav { display: flex; overflow-x: auto; padding: 0; }
       .nav-link { flex: 0 0 auto; border-left: 0; border-bottom: 3px solid transparent; }
       .nav-link.current { border-left: 0; border-bottom-color: var(--blue); }
@@ -107,20 +108,21 @@
 </head>
 <body>
   <header class="top-header">
-    <div class="portal-brand"><span class="brand-emblem" aria-hidden="true">G</span><span>Student Portal</span></div>
+    <div class="portal-brand"><span class="brand-emblem" aria-hidden="true">S</span><span>Student Portal</span></div>
     <div class="header-right"><span>Welcome to your school account</span><div class="header-user"><span class="user-circle" aria-hidden="true">S</span><span>Student</span></div></div>
   </header>
+  <div class="demo-banner"><strong>Unofficial demo page.</strong> This sample is not affiliated with or connected to Genesis or any school. All grades and student details are fictional.</div>
   <div class="layout">
     <aside class="sidebar" aria-label="Student portal navigation">
       <div class="sidebar-title">Student Information</div>
-      <div class="student-card"><div class="student-icon" aria-hidden="true">S</div><div><div class="student-name">Student</div><div class="student-id">My account</div></div></div>
-      <nav class="side-nav">
+      <div class="student-card"><div class="student-icon" aria-hidden="true">S</div><div><div class="student-name">Sample Student</div><div class="student-id">Demo account</div></div></div>
+      <nav class="side-nav" aria-label="Portal sections">
         <a class="nav-link" href="#grades"><span class="nav-glyph" aria-hidden="true">⌂</span> Home</a>
         <a class="nav-link current" href="#grades" aria-current="page"><span class="nav-glyph" aria-hidden="true">▤</span> Grading</a>
         <a class="nav-link" href="#attendance"><span class="nav-glyph" aria-hidden="true">▦</span> Attendance</a>
         <a class="nav-link" href="#schedule"><span class="nav-glyph" aria-hidden="true">◷</span> Schedule</a>
       </nav>
-      <div class="side-foot">Student grades shown here are sample information for this demo page.</div>
+      <div class="side-foot">This independent demo displays fictional sample information only.</div>
     </aside>
     <main class="content-panel" id="grades">
       <div class="breadcrumb">Student Information <span>›</span> Grading <span>›</span> Gradebook</div>
@@ -142,7 +144,7 @@
           </div>
         </section>
         <section class="detail" id="course-detail" aria-live="polite" aria-label="Selected course details"></section>
-        <p class="footnote">Select a course name to view its details. This is a sample student portal and is not connected to a school grade system.</p>
+        <p class="footnote">Select a course name to view its details. This is a fictional demo page—not a real student record or official school portal.</p>
       </div>
     </main>
   </div>
@@ -164,7 +166,7 @@
     }
     courses.forEach((course, index) => {
       const row = document.createElement('tr');
-      row.innerHTML = `<td><button class="subject-button" type="button">${course.name}</button></td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td>`;
+      row.innerHTML = `<td><button class="subject-button" type="button" aria-label="View ${course.name} details">${course.name}</button></td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td>`;
       row.querySelector('button').addEventListener('click', () => showCourse(index));
       rows.appendChild(row);
     });
