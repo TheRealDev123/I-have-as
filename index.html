@@ -3,177 +3,176 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f6f7fb">
-  <meta name="description" content="A bright, modern dashboard for celebrating your school grades.">
-  <title>My Grades — A+ Dashboard</title>
+  <meta name="theme-color" content="#174a78">
+  <meta name="description" content="A sample student grade portal with an A+ in every subject.">
+  <title>Student Portal — Grades</title>
   <style>
     :root {
       color-scheme: light;
-      --ink: #20233b;
-      --muted: #777b91;
-      --purple: #7657e8;
-      --purple-dark: #6142d3;
-      --lavender: #f0edff;
-      --line: #ececf4;
-      --surface: #fff;
-      --bg: #f7f7fb;
-      --green: #2da77a;
-      --shadow: 0 16px 42px rgba(44, 37, 91, .08);
+      --navy: #173c60;
+      --blue: #24679b;
+      --blue-dark: #194f7c;
+      --blue-light: #e8f1f8;
+      --line: #c9d6e0;
+      --ink: #263746;
+      --muted: #647789;
+      --page: #eef2f5;
+      --white: #fff;
+      --green: #227445;
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+    body { margin: 0; background: var(--page); color: var(--ink); font-family: Arial, Helvetica, sans-serif; font-size: 13px; }
     button { font: inherit; }
-    .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
-    .sidebar {
-      display: flex; flex-direction: column; padding: 27px 18px 22px;
-      background: #fff; border-right: 1px solid var(--line);
+    .top-header { min-height: 67px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 clamp(16px, 4vw, 48px); color: white; background: var(--navy); border-bottom: 4px solid #6fa7cc; }
+    .portal-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; letter-spacing: .2px; }
+    .brand-emblem { display: grid; width: 36px; height: 36px; place-items: center; border: 2px solid rgba(255,255,255,.82); border-radius: 50%; font-size: 18px; font-weight: 700; }
+    .header-right { display: flex; align-items: center; gap: 18px; color: #e4edf4; font-size: 12px; }
+    .header-user { display: flex; align-items: center; gap: 9px; padding-left: 17px; border-left: 1px solid rgba(255,255,255,.25); }
+    .user-circle { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; color: var(--navy); background: white; font-weight: 700; }
+    .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; width: min(1240px, calc(100% - 38px)); margin: 22px auto 42px; align-items: start; }
+    .sidebar, .content-panel { background: white; border: 1px solid #d4dde5; box-shadow: 0 1px 2px rgba(20,50,75,.05); }
+    .sidebar-title { padding: 13px 15px; color: white; background: var(--blue); font-size: 14px; font-weight: 700; }
+    .student-card { display: flex; align-items: center; gap: 11px; padding: 16px 14px; border-bottom: 1px solid var(--line); background: #f8fafc; }
+    .student-icon { display: grid; width: 37px; height: 37px; flex: 0 0 37px; place-items: center; border: 1px solid #b9c9d6; border-radius: 50%; color: var(--blue-dark); background: #e7eff5; font-weight: 700; }
+    .student-name { font-size: 13px; font-weight: 700; }
+    .student-id { margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .side-nav { padding: 8px 0; }
+    .nav-link { display: flex; align-items: center; gap: 10px; min-height: 39px; padding: 9px 14px; color: #31536d; text-decoration: none; border-left: 3px solid transparent; font-size: 12px; }
+    .nav-link:hover { background: #f3f7fa; }
+    .nav-link.current { color: #143f65; background: #eaf2f8; border-left-color: var(--blue); font-weight: 700; }
+    .nav-glyph { width: 17px; color: #567b98; text-align: center; font-size: 15px; }
+    .side-foot { margin: 0 14px; padding: 12px 0 14px; border-top: 1px solid #e0e6eb; color: #768695; font-size: 10px; line-height: 1.5; }
+    .content-panel { min-width: 0; }
+    .breadcrumb { padding: 11px 18px; color: #5e7486; background: #f7f9fb; border-bottom: 1px solid var(--line); font-size: 11px; }
+    .breadcrumb span { padding: 0 7px; color: #9aa8b3; }
+    .page-content { padding: 21px 22px 24px; }
+    .title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding-bottom: 16px; border-bottom: 1px solid #dce3e9; }
+    h1 { margin: 0; color: #234e70; font-size: 23px; font-weight: 600; }
+    .subheading { margin: 7px 0 0; color: #687b8b; font-size: 12px; }
+    .school-year { padding: 7px 10px; border: 1px solid #c9d5df; border-radius: 2px; background: #f8fafc; color: #40596c; white-space: nowrap; font-size: 11px; }
+    .notice { margin: 16px 0; padding: 10px 12px; border: 1px solid #c8dbe9; border-left: 4px solid #4e8db7; background: #f2f8fc; color: #395c76; font-size: 12px; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 16px 0 22px; border: 1px solid var(--line); background: #fafcfd; }
+    .summary-cell { padding: 12px 15px; border-right: 1px solid var(--line); }
+    .summary-cell:last-child { border-right: 0; }
+    .summary-label { color: #697d8d; font-size: 10px; text-transform: uppercase; letter-spacing: .45px; }
+    .summary-value { margin-top: 5px; color: #234f72; font-size: 20px; font-weight: 700; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 9px; }
+    h2 { margin: 0; color: #264f6e; font-size: 15px; font-weight: 700; }
+    .term-label { color: #718291; font-size: 11px; }
+    .table-wrap { overflow-x: auto; border: 1px solid #b9c9d5; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    thead { color: #284c67; background: #e6eef4; }
+    th { padding: 10px 12px; border-right: 1px solid #c8d5df; border-bottom: 1px solid #b9c9d5; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    th:last-child, td:last-child { border-right: 0; }
+    td { padding: 10px 12px; border-right: 1px solid #e0e6eb; border-bottom: 1px solid #d9e1e7; color: #354c5d; font-size: 12px; }
+    tbody tr:nth-child(even) { background: #f7f9fb; }
+    tbody tr:hover { background: #eef5fa; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .subject-button { padding: 0; border: 0; background: transparent; color: #205b88; text-align: left; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; font-weight: 600; }
+    .subject-button:hover { color: #123d61; }
+    .grade { color: var(--green); font-weight: 700; text-align: center; }
+    .center { text-align: center; }
+    .detail { display: none; margin-top: 17px; border: 1px solid #bdccd7; }
+    .detail.open { display: block; }
+    .detail-title { padding: 9px 12px; color: white; background: var(--blue); font-weight: 700; }
+    .detail-body { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px; background: #fbfcfd; }
+    .detail-message { color: #536a7c; font-size: 12px; line-height: 1.5; }
+    .detail-grade { min-width: 58px; padding: 8px 12px; border: 1px solid #a9cdb6; background: #eef8f0; color: var(--green); text-align: center; font-size: 18px; font-weight: 700; }
+    .footnote { margin: 14px 0 0; color: #8795a1; font-size: 10px; }
+    @media (max-width: 760px) {
+      .layout { grid-template-columns: 1fr; width: min(100% - 24px, 620px); margin-top: 13px; }
+      .sidebar { display: block; }
+      .side-nav { display: flex; overflow-x: auto; padding: 0; }
+      .nav-link { flex: 0 0 auto; border-left: 0; border-bottom: 3px solid transparent; }
+      .nav-link.current { border-left: 0; border-bottom-color: var(--blue); }
+      .student-card, .side-foot { display: none; }
+      .sidebar-title { padding: 10px 13px; }
+      .header-right > span { display: none; }
+      .top-header { min-height: 59px; }
     }
-    .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; font-size: 17px; font-weight: 760; letter-spacing: -.5px; }
-    .brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; color: white; background: linear-gradient(145deg, #947bff, #6848df); box-shadow: 0 6px 14px #7657e844; }
-    .brand-mark svg { width: 21px; height: 21px; }
-    .nav-label { margin: 39px 10px 12px; color: #a0a2b3; font-size: 10px; font-weight: 760; letter-spacing: 1.25px; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 13px; border-radius: 12px; color: #777b91; font-size: 13px; font-weight: 630; }
-    .nav-item.active { color: var(--purple-dark); background: var(--lavender); }
-    .nav-item svg { width: 18px; height: 18px; }
-    .sidebar-bottom { margin-top: auto; }
-    .help-card { padding: 15px; border: 1px solid var(--line); border-radius: 15px; background: #fcfcff; }
-    .help-icon { display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 12px; border-radius: 10px; background: #f2efff; color: var(--purple); font-weight: 800; }
-    .help-card strong { display: block; font-size: 12px; }
-    .help-card p { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
-    main { min-width: 0; padding: 27px clamp(20px, 4vw, 55px) 48px; }
-    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 42px; }
-    .breadcrumb { color: var(--muted); font-size: 12px; }
-    .profile { display: flex; align-items: center; gap: 10px; }
-    .avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #6848df; background: #e9e3ff; font-size: 12px; font-weight: 750; }
-    .profile-name { font-size: 12px; font-weight: 700; }
-    .profile-sub { margin-top: 3px; color: var(--muted); font-size: 10px; }
-    .intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 27px; }
-    .eyebrow { margin: 0 0 9px; color: var(--purple); font-size: 11px; font-weight: 750; letter-spacing: 1px; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(29px, 4vw, 39px); letter-spacing: -1.6px; line-height: 1.12; }
-    .subtitle { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
-    .term-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 13px; white-space: nowrap; border: 1px solid var(--line); border-radius: 11px; background: #fff; color: #55596f; font-size: 11px; font-weight: 650; }
-    .term-pill svg { width: 15px; height: 15px; color: var(--purple); }
-    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin-bottom: 27px; }
-    .stat-card { display: flex; align-items: center; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: 0 4px 16px rgba(34, 30, 70, .025); }
-    .stat-icon { display: grid; flex: 0 0 41px; place-items: center; width: 41px; height: 41px; border-radius: 13px; color: var(--purple); background: #f1eeff; }
-    .stat-icon.green { color: var(--green); background: #eaf8f2; }
-    .stat-icon.gold { color: #d3922f; background: #fff5e5; }
-    .stat-icon svg { width: 20px; height: 20px; }
-    .stat-label { color: var(--muted); font-size: 10px; font-weight: 650; }
-    .stat-value { margin-top: 4px; font-size: 20px; font-weight: 780; letter-spacing: -.6px; }
-    .stat-note { margin-top: 3px; color: #999bad; font-size: 10px; }
-    .section-heading { display: flex; align-items: center; justify-content: space-between; margin: 0 0 13px; }
-    h2 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
-    .count { color: var(--muted); font-size: 11px; }
-    .subject-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; }
-    .subject-card {
-      position: relative; display: flex; align-items: center; gap: 12px; min-width: 0; padding: 15px;
-      border: 1px solid var(--line); border-radius: 15px; background: #fff; color: var(--ink);
-      text-align: left; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    @media (max-width: 520px) {
+      .portal-brand { font-size: 17px; }
+      .brand-emblem { width: 31px; height: 31px; }
+      .layout { width: calc(100% - 16px); gap: 10px; }
+      .page-content { padding: 16px 12px 20px; }
+      .title-row { flex-direction: column; }
+      h1 { font-size: 21px; }
+      .summary-cell { padding: 10px 8px; }
+      .summary-value { font-size: 17px; }
+      .summary-label { font-size: 9px; }
+      th, td { padding: 9px 8px; }
+      .table-wrap { margin-right: -1px; }
     }
-    .subject-card:hover { transform: translateY(-2px); border-color: #d8d0ff; box-shadow: 0 9px 22px rgba(58, 46, 120, .08); }
-    .subject-card[aria-pressed="true"] { border-color: #cfc4ff; box-shadow: 0 0 0 3px #f0edff; }
-    .subject-icon { display: grid; flex: 0 0 38px; place-items: center; width: 38px; height: 38px; border-radius: 12px; font-size: 18px; }
-    .subject-info { min-width: 0; }
-    .subject-name { overflow: hidden; font-size: 12px; font-weight: 720; text-overflow: ellipsis; white-space: nowrap; }
-    .subject-meta { margin-top: 4px; color: var(--muted); font-size: 10px; }
-    .grade-chip { margin-left: auto; padding: 6px 8px; border-radius: 9px; color: #208b65; background: #e9f8f1; font-size: 11px; font-weight: 800; }
-    .detail-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; margin-top: 23px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 4px 16px rgba(34, 30, 70, .025); }
-    .detail-top { display: flex; align-items: center; gap: 11px; }
-    .detail-top .subject-icon { width: 42px; height: 42px; font-size: 20px; }
-    .detail-name { font-size: 14px; font-weight: 750; }
-    .detail-caption { margin-top: 4px; color: var(--muted); font-size: 10px; }
-    .detail-description { margin: 14px 0 0; color: #65697e; font-size: 11px; line-height: 1.6; }
-    .big-grade { min-width: 102px; padding: 10px 18px; border-radius: 14px; background: #f0fbf6; color: #228b65; text-align: center; }
-    .big-grade strong { display: block; font-size: 30px; letter-spacing: -1.5px; }
-    .big-grade span { display: block; margin-top: 2px; color: #5da88b; font-size: 9px; font-weight: 650; }
-    .footer-note { margin-top: 21px; color: #a0a2b3; font-size: 10px; text-align: center; }
-    @media (max-width: 900px) { .app { grid-template-columns: 205px minmax(0, 1fr); } .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 650px) {
-      .app { display: block; }
-      .sidebar { display: none; }
-      main { padding: 19px 17px 35px; }
-      .topbar { margin-bottom: 30px; }
-      .intro { align-items: flex-start; flex-direction: column; }
-      .term-pill { align-self: flex-start; }
-      .stats { grid-template-columns: 1fr; gap: 9px; }
-      .stat-card { padding: 13px 15px; }
-      .stat-icon { width: 36px; height: 36px; flex-basis: 36px; }
-      .stat-value { font-size: 18px; }
-      .subject-grid { gap: 9px; }
-      .subject-card { gap: 8px; padding: 11px 9px; }
-      .subject-icon { width: 32px; height: 32px; flex-basis: 32px; font-size: 15px; }
-      .subject-name { font-size: 11px; }
-      .grade-chip { padding: 5px 6px; font-size: 10px; }
-      .detail-card { padding: 16px; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar" aria-label="Main navigation">
-      <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7V3Z" fill="currentColor"/></svg></span> Gradebook</div>
-      <div class="nav-label">MENU</div>
-      <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg> My grades</div>
-      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Subjects</div>
-      <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> School year</div>
-      <div class="sidebar-bottom"><div class="help-card"><div class="help-icon">✦</div><strong>Keep it up!</strong><p>Every subject is looking brilliant. You're doing great.</p></div></div>
+  <header class="top-header">
+    <div class="portal-brand"><span class="brand-emblem" aria-hidden="true">G</span><span>Student Portal</span></div>
+    <div class="header-right"><span>Welcome to your school account</span><div class="header-user"><span class="user-circle" aria-hidden="true">S</span><span>Student</span></div></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Student portal navigation">
+      <div class="sidebar-title">Student Information</div>
+      <div class="student-card"><div class="student-icon" aria-hidden="true">S</div><div><div class="student-name">Student</div><div class="student-id">My account</div></div></div>
+      <nav class="side-nav">
+        <a class="nav-link" href="#grades"><span class="nav-glyph" aria-hidden="true">⌂</span> Home</a>
+        <a class="nav-link current" href="#grades" aria-current="page"><span class="nav-glyph" aria-hidden="true">▤</span> Grading</a>
+        <a class="nav-link" href="#attendance"><span class="nav-glyph" aria-hidden="true">▦</span> Attendance</a>
+        <a class="nav-link" href="#schedule"><span class="nav-glyph" aria-hidden="true">◷</span> Schedule</a>
+      </nav>
+      <div class="side-foot">Student grades shown here are sample information for this demo page.</div>
     </aside>
-    <main>
-      <header class="topbar">
-        <div class="breadcrumb">School portal <span aria-hidden="true"> / </span> <strong>My grades</strong></div>
-        <div class="profile"><div class="avatar" aria-hidden="true">S</div><div><div class="profile-name">Student</div><div class="profile-sub">My dashboard</div></div></div>
-      </header>
-      <section class="intro" aria-labelledby="page-title">
-        <div><p class="eyebrow">Your progress at a glance</p><h1 id="page-title">My grades<span aria-hidden="true"> ✨</span></h1><p class="subtitle">Look at you go — you're doing amazing in every subject.</p></div>
-        <div class="term-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> 2025–2026 School Year</div>
-      </section>
-      <section class="stats" aria-label="Grade summary">
-        <article class="stat-card"><div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"/></svg></div><div><div class="stat-label">Overall grade</div><div class="stat-value">A+</div><div class="stat-note">A+ across the board</div></div></article>
-        <article class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h17M7 15l4-4 3 2 6-7"/><path d="M16 6h4v4"/></svg></div><div><div class="stat-label">Subjects doing great in</div><div class="stat-value">6 / 6</div><div class="stat-note">Every single one!</div></div></article>
-        <article class="stat-card"><div class="stat-icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4v2a4 4 0 0 0 4 4m9-6h3v2a4 4 0 0 1-4 4"/></svg></div><div><div class="stat-label">Achievement</div><div class="stat-value">All-star</div><div class="stat-note">Keep shining!</div></div></article>
-      </section>
-      <section aria-labelledby="subjects-title">
-        <div class="section-heading"><h2 id="subjects-title">All subjects</h2><span class="count">6 subjects</span></div>
-        <div class="subject-grid" id="subject-grid" role="group" aria-label="Choose a subject"></div>
-      </section>
-      <section class="detail-card" id="subject-detail" aria-live="polite" aria-label="Selected subject details"></section>
-      <p class="footer-note">One step at a time — you're making wonderful progress. 🌱</p>
+    <main class="content-panel" id="grades">
+      <div class="breadcrumb">Student Information <span>›</span> Grading <span>›</span> Gradebook</div>
+      <div class="page-content">
+        <div class="title-row"><div><h1>Gradebook</h1><p class="subheading">View your course grades and marking period results.</p></div><div class="school-year">School Year: 2025–2026</div></div>
+        <div class="notice"><strong>Grade summary:</strong> Sample grades are displayed for demonstration. All listed subjects currently show A+.</div>
+        <div class="summary" aria-label="Grade summary">
+          <div class="summary-cell"><div class="summary-label">Overall grade</div><div class="summary-value">A+</div></div>
+          <div class="summary-cell"><div class="summary-label">Courses</div><div class="summary-value">6</div></div>
+          <div class="summary-cell"><div class="summary-label">Current standing</div><div class="summary-value">Excellent</div></div>
+        </div>
+        <section aria-labelledby="courses-title">
+          <div class="section-heading"><h2 id="courses-title">Course Grades</h2><span class="term-label">All marking periods</span></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Course</th><th scope="col">MP 1</th><th scope="col">MP 2</th><th scope="col">MP 3</th><th scope="col">MP 4</th><th scope="col">Final</th></tr></thead>
+              <tbody id="course-rows"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="detail" id="course-detail" aria-live="polite" aria-label="Selected course details"></section>
+        <p class="footnote">Select a course name to view its details. This is a sample student portal and is not connected to a school grade system.</p>
+      </div>
     </main>
   </div>
   <script>
-    const subjects = [
-      { name: 'Mathematics', icon: '∑', tint: '#f0edff', color: '#7657e8', note: 'Numbers, patterns & problem-solving', message: 'A+ work in math! Your effort and curiosity are adding up to something wonderful.' },
-      { name: 'English', icon: '✎', tint: '#fff0ed', color: '#e77b63', note: 'Reading, writing & communication', message: 'A+ work in English! Your ideas and words are making a big impression.' },
-      { name: 'Science', icon: '⚛', tint: '#eaf8f2', color: '#37a77a', note: 'Discovering how the world works', message: 'A+ work in science! Keep asking great questions and exploring.' },
-      { name: 'History', icon: '◷', tint: '#fff5e5', color: '#d3922f', note: 'Stories and lessons from the past', message: 'A+ work in history! You’re building a brilliant understanding of the past.' },
-      { name: 'Art', icon: '✿', tint: '#ffedf5', color: '#d75d91', note: 'Creativity, color & imagination', message: 'A+ work in art! Your creativity is something to celebrate.' },
-      { name: 'Physical Education', icon: '⚡', tint: '#eaf3ff', color: '#528cda', note: 'Movement, teamwork & wellbeing', message: 'A+ work in PE! Your energy and teamwork are outstanding.' }
+    const courses = [
+      { name: 'Mathematics', note: 'Numbers, patterns, and problem-solving.' },
+      { name: 'English', note: 'Reading, writing, and communication.' },
+      { name: 'Science', note: 'Discovering how the world works.' },
+      { name: 'History', note: 'Stories and lessons from the past.' },
+      { name: 'Art', note: 'Creativity, color, and imagination.' },
+      { name: 'Physical Education', note: 'Movement, teamwork, and wellbeing.' }
     ];
-    const grid = document.querySelector('#subject-grid');
-    const detail = document.querySelector('#subject-detail');
-    function showSubject(index) {
-      const subject = subjects[index];
-      document.querySelectorAll('.subject-card').forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-      detail.innerHTML = `<div><div class="detail-top"><span class="subject-icon" style="background:${subject.tint};color:${subject.color}" aria-hidden="true">${subject.icon}</span><div><div class="detail-name">${subject.name}</div><div class="detail-caption">${subject.note}</div></div></div><p class="detail-description">${subject.message}</p></div><div class="big-grade"><strong>A+</strong><span>EXCELLENT WORK</span></div>`;
+    const rows = document.querySelector('#course-rows');
+    const detail = document.querySelector('#course-detail');
+    function showCourse(index) {
+      const course = courses[index];
+      detail.innerHTML = `<div class="detail-title">${course.name} — Course Details</div><div class="detail-body"><div class="detail-message">${course.note} Your current grade for this sample course is A+.</div><div class="detail-grade">A+</div></div>`;
+      detail.classList.add('open');
     }
-    subjects.forEach((subject, index) => {
-      const button = document.createElement('button');
-      button.className = 'subject-card';
-      button.type = 'button';
-      button.setAttribute('aria-pressed', 'false');
-      button.innerHTML = `<span class="subject-icon" style="background:${subject.tint};color:${subject.color}" aria-hidden="true">${subject.icon}</span><span class="subject-info"><span class="subject-name">${subject.name}</span><span class="subject-meta">${subject.note}</span></span><span class="grade-chip">A+</span>`;
-      button.addEventListener('click', () => showSubject(index));
-      grid.appendChild(button);
+    courses.forEach((course, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td><button class="subject-button" type="button">${course.name}</button></td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td><td class="grade">A+</td>`;
+      row.querySelector('button').addEventListener('click', () => showCourse(index));
+      rows.appendChild(row);
     });
-    showSubject(0);
+    document.querySelectorAll('.side-nav a').forEach(link => {
+      link.addEventListener('click', event => {
+        if (link.getAttribute('href') !== '#grades') event.preventDefault();
+      });
+    });
   </script>
 </body>
 </html>
